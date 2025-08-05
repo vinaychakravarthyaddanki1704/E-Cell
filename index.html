@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Cell SIT-H | Official Website</title>
+
+    <!-- Bootstrap CSS for responsive design and components -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Google Fonts - Poppins for modern typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome for social media icons (LinkedIn, Email) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <!-- Three.js Library for the interactive 3D background -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+    <style>
+        /* CSS Variables for consistent theming */
+        :root {
+            --brand-cyan: #22d3ee; /* A vibrant cyan for branding elements */
+            --dark-bg: #0f172a; /* Dark background color */
+            --dark-card: #1e293b; /* Slightly lighter dark for cards and sections */
+        }
+
+        /* Smooth scroll behavior for anchor links */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Base body styling */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--dark-bg);
+            color: #e5e7eb; /* Light text color for contrast */
+            position: relative; /* Required for Bootstrap Scrollspy to work correctly */
+        }
+
+        /* Styling for the 3D background canvas */
+        #bg-canvas {
+            position: fixed; /* Fixed position to cover the entire viewport */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -10; /* Send to background */
+        }
+
+        /* Navbar styling with transparency and blur effect */
+        .navbar {
+            background-color: rgba(30, 41, 59, 0.8); /* Semi-transparent background */
+            backdrop-filter: blur(10px); /* Frosted glass effect */
+        }
+
+        /* Style for the active nav link, controlled by Bootstrap Scrollspy */
+        .navbar-nav .nav-link.active {
+            color: var(--brand-cyan) !important; /* Highlight active link with brand color */
+            font-weight: 700; /* Bold text for active link */
+        }
+
+        /* Add transition to nav links for a smoother hover effect */
+        .navbar-nav .nav-link {
+            transition: color 0.3s ease, transform 0.2s ease;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: #67e8f9 !important; /* Lighter cyan on hover */
+            transform: translateY(-2px); /* Slight lift effect */
+        }
+
+        /* Navbar logo styling */
+        .navbar-brand .logo-icon {
+            margin-right: 0.5rem;
+            width: 24px;
+            height: 24px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        
+        .navbar-brand .logo-icon svg {
+            fill: var(--brand-cyan);
+        }
+
+        /* Hero section styling to center content and fill viewport height */
+        .hero-section {
+            min-height: 100vh; /* Full viewport height */
+            display: flex;
+            align-items: center; /* Vertically center content */
+            justify-content: center; /* Horizontally center content */
+        }
+
+        /* General content section padding */
+        .content-section {
+            padding: 6rem 0; /* Ample vertical padding */
+            overflow: hidden; /* Important for animation to prevent content from showing prematurely */
+        }
+
+        /* Background color for dark cards/sections */
+        .bg-dark-card {
+            background-color: var(--dark-card);
+        }
+
+        /* Text color for brand elements */
+        .text-brand-cyan {
+            color: var(--brand-cyan);
+        }
+
+        /* Unified button styling */
+        .btn-primary-uniform {
+            background-color: var(--brand-cyan);
+            color: var(--dark-bg);
+            font-weight: 600;
+            border: none;
+            border-radius: 9999px; /* Rounded-pill effect */
+            padding: 0.75rem 2.5rem; /* Standard padding for buttons */
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease; /* All transitions */
+            box-shadow: 0 4px 15px rgba(34, 211, 238, 0.3); /* Subtle shadow for depth */
+            text-decoration: none; /* Ensure no underline on links acting as buttons */
+            display: inline-flex; /* Allows icon and text to align */
+            align-items: center; /* Vertically center content */
+            justify-content: center; /* Horizontally center content */
+            white-space: nowrap; /* Prevent text wrapping */
+        }
+        .btn-primary-uniform:hover {
+            background-color: #67e8f9; /* Lighter cyan on hover */
+            color: var(--dark-bg);
+            transform: translateY(-3px) scale(1.02); /* More pronounced lift and slight scale */
+            box-shadow: 0 6px 20px rgba(34, 211, 238, 0.5); /* Enhanced shadow on hover */
+        }
+
+        /* Styling for team member images */
+        .team-img {
+            width: 128px;
+            height: 128px;
+            border: 2px solid var(--brand-cyan); /* Border with brand color */
+            object-fit: cover; /* Ensure images cover the area without distortion */
+        }
+
+        /* Social icon styling */
+        .social-icon svg, .social-icon i { /* Include Font Awesome icons */
+            width: 24px;
+            height: 24px;
+            transition: color 0.3s ease, transform 0.2s ease; /* Smooth color and transform transition */
+        }
+        .social-icon:hover svg, .social-icon:hover i { /* Enhanced hover effect for social icons */
+            color: var(--brand-cyan); /* Change color to brand cyan on hover */
+            transform: scale(1.2); /* Slightly scale up on hover */
+        }
+
+        /* Styling for the contact image */
+        .contact-img {
+            width: 150px;
+            height: 150px;
+            border: 3px solid var(--brand-cyan); /* Thicker border with brand color */
+            object-fit: cover;
+        }
+
+        /* Styles for on-scroll fade-in animations */
+        .animate-on-scroll {
+            opacity: 0; /* Start invisible */
+            transform: translateY(40px); /* Start slightly below final position */
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out; /* Smooth transition */
+        }
+        .animate-on-scroll.is-visible {
+            opacity: 1; /* Fade in */
+            transform: translateY(0); /* Move to final position */
+        }
+        
+        /* New styling for event cards and images */
+        .event-card {
+            background-color: var(--dark-card);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .event-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        .event-card .event-title {
+            font-size: 1.5rem;
+            color: var(--brand-cyan);
+            font-weight: 600;
+        }
+        .event-card .event-description {
+            margin-top: 1rem;
+            color: #e5e7eb;
+        }
+        .event-image {
+            width: 100%;
+            height: 250px; /* Fixed height for consistency */
+            object-fit: cover;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Specific styles for policy section for better readability */
+        .policy-section h3 {
+            color: var(--brand-cyan);
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+        .policy-section ul {
+            list-style: disc;
+            padding-left: 1.5rem;
+        }
+        .policy-section ul li {
+            margin-bottom: 0.5rem;
+        }
+        .policy-section p {
+            margin-bottom: 1rem;
+        }
+
+        /* Accordion specific styles */
+        .accordion-item {
+            background-color: var(--dark-card);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 1rem;
+            border-radius: 0.5rem;
+        }
+        .accordion-button {
+            background-color: var(--dark-card);
+            color: var(--brand-cyan);
+            font-weight: 600;
+            font-size: 1.25rem;
+            border-radius: 0.5rem;
+            transition: background-color 0.3s ease;
+        }
+        .accordion-button:not(.collapsed) {
+            color: #fff; /* White text when expanded */
+            background-color: var(--brand-cyan); /* Brand color when expanded */
+            box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .125);
+        }
+        /* Make accordion arrows white for visibility */
+        .accordion-button::after {
+            filter: brightness(0) invert(1); /* Makes the arrow white */
+        }
+        .accordion-button:not(.collapsed)::after {
+            filter: brightness(0) invert(1); /* Ensures it stays white when expanded */
+        }
+        .accordion-button:focus {
+            box-shadow: none;
+            border-color: var(--brand-cyan);
+        }
+        .accordion-body {
+            color: #e5e7eb;
+            padding: 1.5rem;
+        }
+        
+        /* Custom Modal styling for the form */
+        .modal-content {
+            background-color: var(--dark-card);
+            color: #e5e7eb;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .modal-header {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .modal-footer {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .form-control {
+            background-color: #334155;
+            color: #e5e7eb;
+            border-color: #64748b;
+        }
+        .form-control:focus {
+            background-color: #334155;
+            color: #e5e7eb;
+            border-color: var(--brand-cyan);
+            box-shadow: 0 0 0 0.25rem rgba(34, 211, 238, 0.25);
+        }
+        .form-label {
+            color: var(--brand-cyan);
+            font-weight: 600;
+        }
+        /* Style for the loading spinner */
+        #loadingSpinner {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1051;
+        }
+        
+        /* Text size adjustments */
+        .content-section p {
+            font-size: 1.05rem; /* Slightly smaller for general paragraphs */
+        }
+        .content-section ul li {
+            font-size: 1.05rem; /* Apply to list items as well */
+        }
+        .lead {
+            font-size: 1.1rem; /* Slightly smaller lead text */
+        }
+        /* Override Bootstrap's fs-5 to be smaller where used */
+        .fs-5 {
+            font-size: 1.05rem !important;
+        }
+
+        /* "Go to Top" button styling */
+        #goToTopBtn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--brand-cyan);
+            color: var(--dark-bg);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 15px rgba(34, 211, 238, 0.3);
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            z-index: 99;
+        }
+
+        #goToTopBtn:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 6px 20px rgba(34, 211, 238, 0.5);
+        }
+
+        #goToTopBtn.show {
+            opacity: 1;
+        }
+        
+        /* Responsive adjustments for smaller screens */
+        @media (max-width: 767.98px) {
+            .display-4 {
+                font-size: 2.5rem; /* Smaller heading on mobile */
+            }
+            .lead {
+                font-size: 1rem; /* Smaller lead text on mobile */
+            }
+            .btn-primary-uniform {
+                padding: 0.6rem 1.5rem; /* Slightly smaller buttons on mobile */
+                font-size: 0.9rem;
+            }
+            .accordion-button {
+                font-size: 1rem; /* Smaller accordion headers on mobile */
+            }
+            .contact-img {
+                width: 100px;
+                height: 100px;
+            }
+            .footer-contact-info {
+                text-align: center !important; /* Center align contact info in footer on mobile */
+            }
+            .footer-social-icons {
+                justify-content: center !important; /* Center align social icons in footer on mobile */
+            }
+            #goToTopBtn {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body data-bs-spy="scroll" data-bs-target="#navbarNav" data-bs-offset="100">
+
+    <!-- Loading spinner for API calls -->
+    <div id="loadingSpinner" class="spinner-border text-info" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+
+    <!-- Header / Navigation Bar -->
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top" id="navbarNav">
+        <div class="container">
+            <!-- Brand Logo/Name -->
+            <a class="navbar-brand fs-4 fw-bold" href="#home">
+                <!-- Logo SVG -->
+                <span class="logo-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2L6 8h3v4h6V8h3l-6-6zM4 14v2h16v-2H4zM4 18v2h16v-2H4z"/>
+                    </svg>
+                </span>
+                E-Cell <span class="text-brand-cyan">SIT-H</span>
+            </a>
+            <!-- Toggler button for mobile navigation -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main-nav" aria-controls="main-nav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <!-- Navbar links -->
+            <div class="collapse navbar-collapse" id="main-nav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#vision">Vision</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#get-involved">Initiatives</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#events">Events</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#policy">Policy</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#team">Team</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- This canvas element is dedicated to the Three.js 3D background -->
+    <canvas id="bg-canvas"></canvas>
+
+    <main>
+        <!-- Hero Section - The main landing area -->
+        <section id="home" class="hero-section text-center text-white">
+            <div class="container">
+                <h1 class="display-4 fw-bold mb-3 animate-on-scroll">IGNITING IDEAS. BUILDING FUTURES.</h1>
+                <p class="lead mb-4 col-md-8 mx-auto animate-on-scroll" style="transition-delay: 100ms;">Empowering the Next Generation of Innovators & Entrepreneurs at SIT Hyderabad.</p>
+                <a href="#vision" class="btn btn-primary-uniform animate-on-scroll" style="transition-delay: 200ms;">Explore Our Vision</a>
+            </div>
+        </section>
+
+        <!-- Vision & Mission Section -->
+        <section id="vision" class="content-section bg-dark-card">
+            <div class="container">
+                <div class="row g-5">
+                    <div class="col-md-6 animate-on-scroll">
+                        <h2 class="display-5 fw-bold text-brand-cyan mb-3">Our Vision</h2>
+                        <p class="fs-5">To create a vibrant and inclusive entrepreneurial ecosystem at SIT Hyderabad that nurtures innovation, enables start-ups, and empowers students, faculty, and alumni to become visionary entrepreneurs and change makers.</p>
+                    </div>
+                    <div class="col-md-6 animate-on-scroll" style="transition-delay: 100ms;">
+                        <h2 class="display-5 fw-bold text-brand-cyan mb-3">Our Mission</h2>
+                        <p class="fs-5">To inspire and support the entrepreneurial aspirations of SIT stakeholders.</p>
+                        <p class="fs-5">To institutionalize innovation as a core value across academic and extracurricular activities.</p>
+                        <p class="fs-5">To enable pre-incubation, incubation, and funding support for impactful startups.</p>
+                        <p class="fs-5">To foster interdisciplinary collaboration, national/international linkages, and community outreach.</p>
+                    </div>
+                </div>
+                <div class="row mt-5">
+                    <div class="col-12 animate-on-scroll" style="transition-delay: 200ms;">
+                        <h3 class="fs-2 fw-bold text-brand-cyan mb-3">Key Objectives</h3>
+                        <ul class="fs-5">
+                            <li>Promote innovation-driven entrepreneurship among students, faculty, and alumni.</li>
+                            <li>Facilitate idea generation, prototype development, mentorship, and market access.</li>
+                            <li>Integrate entrepreneurship education across curriculum and extracurricular platforms.</li>
+                            <li>Connect SIT’s startups with Symbiosis Centre for Entrepreneurship and Innovation (SCEI) and other regional/national incubators.</li>
+                            <li>Encourage commercialization of research, patenting, and technology transfer.</li>
+                        </ul>
+                        <h3 class="fs-2 fw-bold text-brand-cyan mb-3 mt-4">Goals</h3>
+                        <ul class="fs-5">
+                            <li>Promote entrepreneurship awareness among students, faculty, and alumni.</li>
+                            <li>Organize innovation challenges, ideation workshops, startup bootcamps, and business plan competitions.</li>
+                            <li>Facilitate access to expert mentorship, seed funding opportunities, and investor networks.</li>
+                            <li>Support development of prototypes, filing of intellectual property, and startup registration.</li>
+                            <li>Bridge academia-industry gaps through collaborative projects and internships.</li>
+                            <li>Align with regional and national startup missions, building partnerships with incubators and entrepreneurship forums.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Initiatives Section -->
+        <section id="get-involved" class="content-section">
+            <div class="container">
+                <div class="text-center mb-5 animate-on-scroll">
+                    <h2 class="display-5 fw-bold text-white">Our Initiatives</h2>
+                    <p class="lead text-secondary mt-3">We offer a structured series of initiatives to guide you on your entrepreneurial journey.</p>
+                </div>
+                <div class="row g-4">
+                    <!-- Initiative Cards -->
+                    <div class="col-md-6 col-lg-4 animate-on-scroll">
+                        <div class="p-4 rounded-3 bg-dark-card h-100">
+                            <h3 class="fw-bold text-brand-cyan mb-2">Orientation & Motivation</h3>
+                            <p>Inspiring the entrepreneurial mindset and cultivating a proactive approach.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4 animate-on-scroll" style="transition-delay: 100ms;">
+                        <div class="p-4 rounded-3 bg-dark-card h-100">
+                            <h3 class="fw-bold text-brand-cyan mb-2">Business Planning Workshops</h3>
+                            <p>Providing hands-on training in crafting viable and scalable business plans.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4 animate-on-scroll" style="transition-delay: 200ms;">
+                        <div class="p-4 rounded-3 bg-dark-card h-100">
+                            <h3 class="fw-bold text-brand-cyan mb-2">From Prototype to Commercialization</h3>
+                            <p>Guiding students in preparing essential drafts and strategies for market entry.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4 animate-on-scroll">
+                        <div class="p-4 rounded-3 bg-dark-card h-100">
+                            <h3 class="fw-bold text-brand-cyan mb-2">Investor Engagement</h3>
+                            <p>Creating opportunities to connect with potential investors and pitch their ideas.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4 animate-on-scroll" style="transition-delay: 100ms;">
+                        <div class="p-4 rounded-3 bg-dark-card h-100">
+                            <h3 class="fw-bold text-brand-cyan mb-2">Team Building</h3>
+                            <p>Developing leadership and collaboration skills essential for building effective startup teams.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4 animate-on-scroll" style="transition-delay: 200ms;">
+                        <div class="p-4 rounded-3 bg-dark-card h-100">
+                            <h3 class="fw-bold text-brand-cyan mb-2">Entrepreneurial Finance & Fund Management</h3>
+                            <p>Offering insights into managing finances, securing funding, and sustaining growth.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Events Section - Now links to the new events page -->
+        <section id="events" class="content-section bg-dark-card">
+            <div class="container">
+                <div class="text-center mb-5 animate-on-scroll">
+                    <h2 class="display-5 fw-bold text-white">Events & Highlights</h2>
+                    <p class="lead text-secondary mt-3">Catch up on our latest events and activities that fuel our entrepreneurial spirit.</p>
+                </div>
+                
+                <!-- Button to view all events on a separate page -->
+                <div class="text-center animate-on-scroll" style="transition-delay: 100ms;">
+                    <a href="events.html" class="btn btn-primary-uniform">
+                        <i class="fas fa-calendar-alt me-2"></i> View All Events
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Innovation & Entrepreneurship Policy Section -->
+        <section id="policy" class="content-section">
+            <div class="container">
+                <div class="text-center mb-5 animate-on-scroll">
+                    <h2 class="display-5 fw-bold text-white">Innovation & Entrepreneurship (I & E) Policy</h2>
+                    <p class="lead text-secondary mt-3">Empowering the Next Generation of Innovators & Entrepreneurs</p>
+                </div>
+
+                <div class="accordion" id="policyAccordion">
+                    <!-- Strategic Initiatives -->
+                    <div class="accordion-item animate-on-scroll">
+                        <h2 class="accordion-header" id="headingOne">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                Strategies and Governance
+                            </button>
+                        </h2>
+                        <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#policyAccordion">
+                            <div class="accordion-body">
+                                <p>Foster a vibrant entrepreneurial ecosystem to support aspiring entrepreneurs across all domains. Constitute a multi-stakeholder committee led by a senior expert to drive institutional innovation. Create a sustainable financial model to support pre-incubation infrastructure and activities. Establish an Innovation Fund to finance entrepreneurial initiatives. Encourage fund-raising through government/non-government grants, sponsorships, and alumni contributions. Grant autonomy to the ES-Cell Committee to independently organize programs and initiatives. Promote entrepreneurship across academic and public events. Engage with national and international innovation networks and promote entrepreneurship at community levels.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Start-up Enabling Institutional Infrastructure -->
+                    <div class="accordion-item animate-on-scroll" style="transition-delay: 50ms;">
+                        <h2 class="accordion-header" id="headingTwo">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                Start-up Enabling Institutional Infrastructure
+                            </button>
+                        </h2>
+                        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#policyAccordion">
+                            <div class="accordion-body">
+                                <p>Establish a dedicated Entrepreneurship & Start-up Cell (E-Cell) office and pre-incubation hub. Ensure equitable access to incubation facilities for students, faculty, alumni, and staff associated with start-ups and innovation. Resource sharing with and other technology parks.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Nurturing Innovations and Start-ups -->
+                    <div class="accordion-item animate-on-scroll" style="transition-delay: 100ms;">
+                        <h2 class="accordion-header" id="headingThree">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                Nurturing Innovations and Start-ups
+                            </button>
+                        </h2>
+                        <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#policyAccordion">
+                            <div class="accordion-body">
+                                <p>Provide access to E-Cell facilities for stakeholders and recommend startups to Symbiosis Centre for Entrepreneurship and Innovation (SCEI), Pune. Facilitate collaborations with regional incubators. Support IP filings (patents, copyrights) for innovative projects. Allow academic flexibility for students to work on startups, including semester breaks, academic credits, and replacing projects with entrepreneurial ventures. Faculty/staff can take sabbaticals or leaves to pursue startups while retaining seniority. Offer infrastructure and institutional support for full-time startup efforts. Promote interdisciplinary research and publications in entrepreneurship.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product Ownership & IP Rights -->
+                    <div class="accordion-item animate-on-scroll" style="transition-delay: 150ms;">
+                        <h2 class="accordion-header" id="headingFour">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                Product Ownership & IP Rights
+                            </button>
+                        </h2>
+                        <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#policyAccordion">
+                            <div class="accordion-body">
+                                <p>Faculty/staff may devote up to 20% of work time to startup-related roles (mentorship, advisory) without affecting academic responsibilities. Recognize startup mentoring and development as part of faculty evaluation. Patent filings funded by SIU shall be filed under SIT/SIU and governed by institutional IP policy.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Organizational Capacity, Human Resources & Incentives -->
+                    <div class="accordion-item animate-on-scroll" style="transition-delay: 200ms;">
+                        <h2 class="accordion-header" id="headingFive">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                                Organizational Capacity, Human Resources & Incentives
+                            </button>
+                        </h2>
+                        <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#policyAccordion">
+                            <div class="accordion-body">
+                                <p>Recruit and train faculty/staff with innovation/industry experience. Encourage upskilling via courses on entrepreneurship and venture development.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Creating Innovation Pipeline & Entrepreneurial Pathways -->
+                    <div class="accordion-item animate-on-scroll" style="transition-delay: 250ms;">
+                        <h2 class="accordion-header" id="headingSix">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                                Creating Innovation Pipeline & Entrepreneurial Pathways
+                            </button>
+                        </h2>
+                        <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingSix" data-bs-parent="#policyAccordion">
+                            <div class="accordion-body">
+                                <p>Introduce students to innovation from the first year. Organize activities like hackathons, bootcamps, mentoring, and awards. Train students in design thinking, critical and creative thinking. Promote interaction with local entrepreneurs and connect startups with external networks.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Norms for Faculty Startups -->
+                    <div class="accordion-item animate-on-scroll" style="transition-delay: 300ms;">
+                        <h2 class="accordion-header" id="headingSeven">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
+                                Norms for Faculty Startups
+                            </button>
+                        </h2>
+                        <div id="collapseSeven" class="accordion-collapse collapse" aria-labelledby="headingSeven" data-bs-parent="#policyAccordion">
+                            <div class="accordion-body">
+                                <p>Faculty startups must involve technologies developed at SIT Hyderabad. Clearly define roles and avoid conflicts of interest. Faculty can partner with students, alumni, or external entrepreneurs. For prolonged executive roles in startups, faculty must take approved leave. Human-subject research in startups must get ethical clearance.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pedagogy & Learning Interventions -->
+                    <div class="accordion-item animate-on-scroll" style="transition-delay: 350ms;">
+                        <h2 class="accordion-header" id="headingEight">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEight" aria-expanded="false" aria-controls="collapseEight">
+                                Pedagogy & Learning Interventions
+                            </button>
+                        </h2>
+                        <div id="collapseEight" class="accordion-collapse collapse" aria-labelledby="headingEight" data-bs-parent="#policyAccordion">
+                            <div class="accordion-body">
+                                <p>Establish student-run clubs for entrepreneurship activities. Institute the "Innovation & Entrepreneurship Award" to recognize outstanding contributions. Incorporate case studies, startup stories, and elective courses on innovation and venture creation. Include entrepreneurship in induction programs and department-level planning.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Collaboration, Co-creation, and Knowledge Exchange -->
+                    <div class="accordion-item animate-on-scroll" style="transition-delay: 400ms;">
+                        <h2 class="accordion-header" id="headingNine">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNine" aria-expanded="false" aria-controls="collapseNine">
+                                Collaboration, Co-creation, and Knowledge Exchange
+                            </button>
+                        </h2>
+                        <div id="collapseNine" class="accordion-collapse collapse" aria-labelledby="headingNine" data-bs-parent="#policyAccordion">
+                            <div class="accordion-body">
+                                <p>Develop stakeholder-driven co-creation programs. Build partnerships with incubators, science parks, and innovation hubs. Host networking events to expand engagement and opportunities.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Entrepreneurial Impact Assessment -->
+                    <div class="accordion-item animate-on-scroll" style="transition-delay: 450ms;">
+                        <h2 class="accordion-header" id="headingTen">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTen" aria-expanded="false" aria-controls="collapseTen">
+                                Entrepreneurial Impact Assessment
+                            </button>
+                        </h2>
+                        <div id="collapseTen" class="accordion-collapse collapse" aria-labelledby="headingTen" data-bs-parent="#policyAccordion">
+                            <div class="accordion-body">
+                                <p>Conduct annual impact assessments based on: No. of student & faculty start-ups incubated, Patents filed and technologies commercialized, Funds raised through grants, competitions, and investors, Partnerships and MoUs signed, Awards & recognitions at national/international level.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Participation and Attendance -->
+                    <div class="accordion-item animate-on-scroll" style="transition-delay: 500ms;">
+                        <h2 class="accordion-header" id="headingEleven">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEleven" aria-expanded="false" aria-controls="collapseEleven">
+                                Participation and Attendance
+                            </button>
+                        </h2>
+                        <div id="collapseEleven" class="accordion-collapse collapse" aria-labelledby="headingEleven" data-bs-parent="#policyAccordion">
+                            <div class="accordion-body">
+                                <p>All students of SIT Hyderabad can participate or lead startup initiatives, subject to academic standing. Students must register their startup activities with the E-Cell and seek necessary faculty mentor endorsement.</p>
+                                <p><strong>Attendance Relaxation:</strong> Students representing SIT Hyderabad at recognized entrepreneurship events or actively involved in validated startup ventures may be considered for attendance exemption, subject to documentation and prior written approval from the Director.</p>
+                                <p><strong>Criteria for Approval:</strong> Submission of formal application with event/startup details, Faculty mentor and Head of Department endorsement, Supporting documents. Students must submit a report of their participation or progress.</p>
+                                <p><strong>Code of Conduct:</strong> Students are expected to maintain institutional decorum. Any misuse of this policy for non-genuine entrepreneurial activities will result in disciplinary action.</p>
+                                <p><strong>Roles and Responsibilities:</strong> Students (documentation, transparency), Faculty Coordinator (guide, validate), Head of Department (recommend), Director (final authority).</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- New section for Brochure -->
+                <div class="text-center mt-5 animate-on-scroll" style="transition-delay: 550ms;">
+                    <h3 class="fs-2 fw-bold text-white mb-4">Our Brochure</h3>
+                    <a href="uploaded:E-CELL BROCHURE 2025 (4).pdf" target="_blank" class="btn btn-primary-uniform">
+                        <i class="fas fa-download me-2"></i> Download E-Cell Brochure
+                    </a>
+                </div>
+
+                <div class="text-center mt-5 animate-on-scroll" style="transition-delay: 600ms;">
+                    <h3 class="fs-2 fw-bold text-white mb-4">Important Documents & Partners</h3>
+                    <div class="d-flex flex-column flex-md-row justify-content-center align-items-center gap-3">
+                        <a href="https://sithyd.siu.edu.in/pdfs/Telangana-Innovation-Policy-2016-1-1.pdf" target="_blank" class="btn btn-primary-uniform">
+                            <i class="fas fa-file-pdf me-2"></i> Telangana Policy
+                        </a>
+                        <a href="https://sithyd.siu.edu.in/pdfs/national-policy.pdf" target="_blank" class="btn btn-primary-uniform">
+                            <i class="fas fa-file-pdf me-2"></i> National Policy
+                        </a>
+                        <a href="https://scei.org.in/" target="_blank" class="btn btn-primary-uniform">
+                            <i class="fas fa-external-link-alt me-2"></i> Visit SCEI
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Team Section - Displays internal leadership and external advisors -->
+        <section id="team" class="content-section">
+            <div class="container">
+                <div class="text-center mb-5 animate-on-scroll">
+                    <h2 class="display-5 fw-bold text-white">Leadership & Mentors</h2>
+                    <p class="lead text-secondary mt-3">Our E-Cell is guided by a dedicated team of internal leaders and supported by distinguished external experts.</p>
+                </div>
+                <!-- Internal team members will be dynamically populated by JavaScript -->
+                <div id="internal-team-container" class="row g-4 justify-content-center mb-5"></div>
+                <!-- External team members will be dynamically populated by JavaScript -->
+                <div id="external-team-container" class="row g-4 justify-content-center"></div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="content-section bg-dark-card">
+            <div class="container text-center">
+                <h2 class="display-5 fw-bold text-white animate-on-scroll">Ready to Build the Future?</h2>
+                <p class="lead text-secondary mt-3 col-lg-8 mx-auto animate-on-scroll" style="transition-delay: 100ms;">Connect with us to start your entrepreneurial journey, offer mentorship, or explore partnership opportunities.</p>
+                <div class="mt-5 animate-on-scroll" style="transition-delay: 200ms;">
+                   <div class="row justify-content-center align-items-center">
+                        <div class="col-lg-3 col-md-4 mb-4 mb-md-0">
+                            <!-- Contact person image -->
+                            <img src="images/prashanth.jpeg" alt="Mr. Sai Prashanth Mallellu" class="contact-img rounded-circle mx-auto">
+                        </div>
+                        <div class="col-lg-5 col-md-6 text-center text-md-start fs-5">
+                            <p class="fw-bold text-white mb-1">Mr. Sai Prashanth Mallellu</p>
+                            <p class="text-secondary">Head, Entrepreneurship and Start-up Cell (E-Cell)</p>
+                            <p class="text-secondary mb-1">Email: <a href="mailto:placements@sithyd.siu.edu.in" class="text-brand-cyan text-decoration-none">placements@sithyd.siu.edu.in</a></p>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center align-items-center mt-5">
+                        <div class="col-lg-3 col-md-4 mb-4 mb-md-0">
+                            <!-- Contact person image -->
+                            <img src="images/vinay.jpg" alt="Mr. Vinay Chakravarthy Addanki" class="contact-img rounded-circle mx-auto">
+                        </div>
+                        <div class="col-lg-5 col-md-6 text-center text-md-start fs-5">
+                            <p class="fw-bold text-white mb-1">Mr. Vinay Chakravarthy Addanki</p>
+                            <p class="text-secondary">President, E-Cell</p>
+                            <p class="text-secondary mb-1">Email: <a href="mailto:24070721043@sithyd.siu.edu.in" class="text-brand-cyan text-decoration-none">24070721043@sithyd.siu.edu.in</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Institutional Address Section -->
+        <section class="py-5 text-center text-secondary bg-dark-card">
+            <div class="container">
+                <p class="mb-1">Symbiosis Institute of Technology, Hyderabad</p>
+                <p class="mb-1">A Constituent of Symbiosis International University (Accredited by NAAC with 'A++' grade)</p>
+                <p class="mb-1">Survey Number 292, Off Bangalore Highway, Modallaguda (V), Nandigama (M),</p>
+                <p class="mb-1">Rangareddy Dist, Hyderabad, Telangana, India</p>
+                <p class="mb-0">Pin Code: 509217</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Go To Top Button -->
+    <button id="goToTopBtn" class="d-none d-md-flex"><i class="fas fa-arrow-up"></i></button>
+
+    <!-- Footer Section -->
+    <footer class="py-5 border-top border-secondary bg-dark-card">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-8 text-center text-md-start mb-4 mb-md-0">
+                    <p class="text-secondary mb-1">Symbiosis Institute of Technology, Hyderabad</p>
+                    <p class="text-secondary small">Survey Number 292, Off Bangalore Highway, Rangareddy Dist, Hyderabad, Telangana - 509217</p>
+                    <p class="mt-3 text-secondary small">&copy; 2025 E-Cell, SIT Hyderabad. All Rights Reserved.</p>
+                </div>
+                <div class="col-md-4 text-center text-md-end">
+                    <!-- Social Media Icons -->
+                    <div class="d-flex justify-content-center justify-content-md-end mt-3">
+                        <!-- LinkedIn Icon -->
+                        <a href="https://www.linkedin.com/in/symbiosis-institute-of-technology-hyderabad/" target="_blank" class="text-secondary social-icon mx-1" title="LinkedIn Profile"><i class="fab fa-linkedin"></i></a>
+                        <!-- Instagram Icon -->
+                        <a href="https://www.instagram.com/symbiosis_sit_hyderabad/" target="_blank" class="text-secondary social-icon mx-1" title="Instagram Profile"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <!-- Display current User ID for debugging/management purposes -->
+            <div class="container mt-4 text-center text-secondary small">
+                <p class="mb-0">Your User ID: <span id="userIdDisplay">Authenticating...</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JavaScript Bundle (includes Popper.js) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Firebase SDK for real-time database functionality -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInWithCustomToken, onAuthStateChanged, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- DOM Elements ---
+            const internalContainer = document.querySelector('#internal-team-container');
+            const externalContainer = document.querySelector('#external-team-container');
+            const eventsContainer = document.querySelector('#events-container');
+            const loadingSpinner = document.getElementById('loadingSpinner');
+            const userIdDisplay = document.getElementById('userIdDisplay');
+            let db, auth;
+            let currentUserId = null;
+            const goToTopBtn = document.getElementById('goToTopBtn');
+
+            // --- DATA ---
+            const internalTeam = [
+                { name: "Dr. Rajanikanth Aluvalu", position: "Director & Chair Person", email: "director@sithyd.siu.edu.in", linkedin: "https://www.linkedin.com/in/prof-rajanikanth-aluvalu-26928014/", photo: "images/rajinikanth.jpeg" },
+                { name: "Mr. Sai Prashanth Mallellu", position: "Head, Entrepreneurship and Start-up Cell (E-Cell)", email: "placements@sithyd.siu.edu.in", linkedin: "https://www.linkedin.com/in/sai-prashanth-mallellu-bab491196/", photo: "images/prashanth.jpeg" },
+                { name: "Dr. Amulya Prasad Panda", position: "Head, IIC & Co-Convenor", email: "amulya.panda@sithyd.siu.edu.in", linkedin: "https://www.linkedin.com/in/dr-amulya-prasad-panda-350292aa/", photo: "images/amulya.jpeg" },
+                { name: "Dr. Dhruba Jyothi Bora", position: "Faculty Coordinator", email: "dhruba.bora@sithyd.siu.edu.in", linkedin: "https://www.linkedin.com/in/dr-dhruba-bora-79bb9144/", photo: "images/bora.jpg" },
+                { name: "Mr. D. Anand Kumar", position: "Coordinator", email: "anand.kumar@sithyd.siu.edu.in", linkedin: "https://www.linkedin.com/in/d-anand-kumar-474b3434a/", photo: "images/ananad1.jpg" },
+                { name: "Mr. Vinay Chakravarthy Addanki", position: "President, E-Cell", email: "24070721043@sithyd.siu.edu.in", linkedin: "https://www.linkedin.com/in/vinayaddanki/", photo: "images/vinay.jpg" },
+                { name: "Mr. Sujay Indupuru", position: "Vice President, E-Cell", email: "24070721040@sithyd.siu.edu.in", linkedin: "https://www.linkedin.com/in/sujay-indupuru-756654312/", photo: "images/sujay.jpg" },
+                { name: "Mr. P Karthik", position: "Logistics & Partnership Head, E-Cell", email: "24070721030@sithyd.siu.edu.in", linkedin: "https://www.linkedin.com/in/karthik-p-7507752bb/", photo: "images/karthik.jpg" },
+                { name: "Mr. Gunda Ravi Partha Sarathi", position: "Student Engagement & Outreach Coordinator, E-Cell", email: "24070724005@sithyd.siu.edu.in", linkedin: "http://linkedin.com/in/ravi-partha-sarathi-gunda/", photo: "images/ravi.jpg" },
+                { name: "Ms. Pendlimadugu Nikitha", position: "Student Engagement & Outreach Coordinator, E-Cell", email: "nikithagoud1720@gmail.com", linkedin: "https://www.linkedin.com/in/pendlimadugu-nikitha-75584a328/", photo: "images/nikitha.jpg" }
+            ];
+
+            const externalTeam = [
+                { name: "Dr. Sriram Birudavolu", position: "CEO - Cyber Security Centre of Excellence DSCI (A NASSCOM Initiative), Hyderabad External Invite & Advisor (Government of Telangana)", email: "sriram.b@dsci.in", linkedin: "https://www.linkedin.com/in/dr-sriram-birudavolu/", photo: "images/sriram.jpeg" },
+                { name: "Mr. Bhanu Prakash Reddy Varla", position: "Director - Plural Technology Pvt Ltd External Invite & Business Mentor, Angel Investor", email: "bhanuindia@yahoo.com", linkedin: "https://www.linkedin.com/in/bhanu-prakash-reddy-varla-15850615/", photo: "images/bhanu.jpeg" },
+                { name: "Mr. Vidyasagar Tejomurtula", position: "Senior Principal Architect, Zelis, Hyderabad External Invite & Technology Mentor", email: "sagarvt@gmail.com", linkedin: "https://www.linkedin.com/in/tvidyasagar/", photo: "images/Vidyasagar Tejomurtula.jpeg" },
+                { name: "Mr. Pranay Kumar Nalla", position: "Head – Government Innovation & Partnership, Telangana Innovation Cell, Govt. of Telangana External Invite & Advisor (Government of Telangana, Innovation Cell)", email: "prannay.tsic@telangana.gov.in", linkedin: "https://www.linkedin.com/in/prannay-kumar-nalla-ba874b86/", photo: "images/Pranay Kumar Nalla.jpeg" },
+                { name: "Mr. Vamsi Krishna Jadala", position: "Director, World Trade Center Shamshabad External Invite & Business Mentor", email: "vamshikrishnaj@ieee.org", linkedin: "https://www.linkedin.com/in/vamsikrishnaj/", photo: "images/Vamsi Krishna Jadala.jpeg" },
+                { name: "Ms. Shravya Mandadi", position: "Founder, WE&SHE Foundations External Invite & Women Entrepreneur", email: "shravyareddymandadi@gmail.com", linkedin: "https://www.linkedin.com/in/shravya-mandadi-01067318b/", photo: "images/Shravya Mandadi.jpeg" }
+            ];
+
+            // Function to create a team member card with a photo
+            const createTeamMemberCard = (member, index, isInternal) => {
+                const borderColorClass = isInternal ? 'border-brand-cyan' : 'border-secondary';
+                const positionTextColorClass = isInternal ? 'text-brand-cyan' : 'text-secondary';
+                
+                return `
+                    <div class="col-6 col-md-4 col-lg-2 text-center animate-on-scroll" style="transition-delay: ${index * 50}ms">
+                        <img src="${member.photo}" alt="${member.name}" class="team-img rounded-circle mx-auto mb-3 ${borderColorClass}">
+                        <h3 class="fs-6 fw-bold text-white">${member.name}</h3>
+                        <p class="${positionTextColorClass} small">${member.position}</p>
+                        <div class="d-flex justify-content-center mt-2">
+                            ${member.email ? `<a href="mailto:${member.email}" class="text-secondary social-icon mx-1" title="Email ${member.name}"><i class="fas fa-envelope"></i></a>` : ''}
+                            ${member.linkedin ? `<a href="${member.linkedin}" target="_blank" class="text-secondary social-icon mx-1" title="LinkedIn Profile"><i class="fab fa-linkedin"></i></a>` : ''}
+                        </div>
+                    </div>`;
+            };
+
+            // Populate internal team members dynamically
+            const populateTeam = () => {
+                if (internalContainer) {
+                    internalTeam.forEach((member, index) => {
+                        internalContainer.innerHTML += createTeamMemberCard(member, index, true);
+                    });
+                }
+                // Populate external advisors dynamically
+                if (externalContainer) {
+                    externalTeam.forEach((member, index) => {
+                        const colClass = "col-6 col-md-4 col-lg-3";
+                        const memberHtml = `
+                            <div class="${colClass} text-center animate-on-scroll" style="transition-delay: ${index * 50}ms">
+                                <img src="${member.photo}" alt="${member.name}" class="team-img rounded-circle mx-auto mb-3 border-secondary">
+                                <h3 class="fs-6 fw-bold text-white">${member.name}</h3>
+                                <p class="text-secondary small">${member.position}</p>
+                                <div class="d-flex justify-content-center mt-2">
+                                    ${member.email ? `<a href="mailto:${member.email}" class="text-secondary social-icon mx-1" title="Email ${member.name}"><i class="fas fa-envelope"></i></a>` : ''}
+                                    ${member.linkedin ? `<a href="${member.linkedin}" target="_blank" class="text-secondary social-icon mx-1" title="LinkedIn Profile"><i class="fab fa-linkedin"></i></a>` : ''}
+                                </div>
+                            </div>`;
+                        externalContainer.innerHTML += memberHtml;
+                    });
+                }
+            };
+            populateTeam();
+
+            // Initialize Firebase and set up auth listener for user ID
+            const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
+            window.appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+            const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+            
+            if (Object.keys(firebaseConfig).length) {
+                const app = initializeApp(firebaseConfig);
+                db = getFirestore(app);
+                auth = getAuth(app);
+                
+                onAuthStateChanged(auth, async (user) => {
+                    if (user) {
+                        currentUserId = user.uid;
+                        userIdDisplay.textContent = currentUserId;
+                    } else {
+                        try {
+                            if (initialAuthToken) {
+                                await signInWithCustomToken(auth, initialAuthToken);
+                            } else {
+                                await signInAnonymously(auth);
+                            }
+                        } catch (error) {
+                            console.error("Firebase Auth Error: ", error);
+                            userIdDisplay.textContent = "Error";
+                        }
+                    }
+                });
+            } else {
+                console.error("Firebase configuration is missing.");
+                userIdDisplay.textContent = "No Firebase Config";
+            }
+
+            // --- On-Scroll Fade-In Animation ---
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+
+            const elementsToAnimate = document.querySelectorAll('.animate-on-scroll');
+            elementsToAnimate.forEach(el => observer.observe(el));
+
+            // --- Go To Top Button Logic ---
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 300) {
+                    goToTopBtn.classList.add('show');
+                } else {
+                    goToTopBtn.classList.remove('show');
+                }
+            });
+
+            goToTopBtn.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        });
+
+        // --- Three.js 3D Background Animation ---
+        window.onload = function() {
+            const canvas = document.getElementById('bg-canvas');
+            if (!canvas) {
+                console.error("Canvas element not found.");
+                return;
+            }
+
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+            const particlesGeometry = new THREE.BufferGeometry();
+            const particlesCount = 7000;
+            const posArray = new Float32Array(particlesCount * 3);
+            for(let i = 0; i < particlesCount * 3; i++) {
+                posArray[i] = (Math.random() - 0.5) * 20;
+            }
+            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+
+            const particlesMaterial = new THREE.PointsMaterial({
+                size: 0.02,
+                color: 0x22d3ee,
+                blending: THREE.AdditiveBlending,
+                transparent: true,
+                depthWrite: false
+            });
+            const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+            scene.add(particlesMesh);
+
+            camera.position.z = 5;
+            let mouseX = 0, mouseY = 0;
+            document.addEventListener('mousemove', (event) => {
+                mouseX = event.clientX;
+                mouseY = event.clientY;
+            });
+
+            const clock = new THREE.Clock();
+            const animate = () => {
+                requestAnimationFrame(animate);
+                const elapsedTime = clock.getElapsedTime();
+                particlesMesh.rotation.y = -0.05 * elapsedTime;
+                const targetX = (mouseX / window.innerWidth) * 2 - 1;
+                const targetY = -(mouseY / window.innerHeight) * 2 + 1;
+                camera.position.x += ( targetX - camera.position.x ) * 0.05;
+                camera.position.y += ( targetY - camera.position.y ) * 0.05;
+                camera.lookAt(scene.position);
+                renderer.render(scene, camera);
+            };
+            
+            animate();
+
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            });
+        };
+    </script>
+</body>
+</html>
