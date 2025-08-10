@@ -750,7 +750,7 @@
                         <div class="col-lg-5 col-md-6 text-center text-md-start fs-5">
                             <p class="fw-bold text-white mb-1">Mr. Sai Prashanth Mallellu</p>
                             <p class="text-secondary">Head, Entrepreneurship and Start-up Cell (E-Cell)</p>
-                            <p class="text-secondary mb-1">Email: <a href="mailto:placements@sithyd.siu.edu.in" class="text-brand-cyan text-decoration-none">placements@sithyd.siu.edu.in</a></p>
+                            <p class="text-secondary mb-1">Email: <a href="https://mail.google.com/mail/?view=cm&fs=1&to=ecell@sithyd.siu.edu.in" target="_blank" class="text-brand-cyan text-decoration-none">ecell@sithyd.siu.edu.in</a></p>
                         </div>
                     </div>
                     <div class="row justify-content-center align-items-center mt-5">
@@ -761,7 +761,7 @@
                         <div class="col-lg-5 col-md-6 text-center text-md-start fs-5">
                             <p class="fw-bold text-white mb-1">Mr. Vinay Chakravarthy Addanki</p>
                             <p class="text-secondary">President, E-Cell</p>
-                            <p class="text-secondary mb-1">Email: <a href="mailto:24070721043@sithyd.siu.edu.in" class="text-brand-cyan text-decoration-none">24070721043@sithyd.siu.edu.in</a></p>
+                            <p class="text-secondary mb-1">Email: <a href="https://mail.google.com/mail/?view=cm&fs=1&to=24070721043@sithyd.siu.edu.in" target="_blank" class="text-brand-cyan text-decoration-none">24070721043@sithyd.siu.edu.in</a></p>
                         </div>
                     </div>
                 </div>
@@ -772,10 +772,7 @@
         <section class="py-5 text-center text-secondary bg-dark-card">
             <div class="container">
                 <p class="mb-1">Symbiosis Institute of Technology, Hyderabad</p>
-                <p class="mb-1">A Constituent of Symbiosis International University (Accredited by NAAC with 'A++' grade)</p>
-                <p class="mb-1">Survey Number 292, Off Bangalore Highway, Modallaguda (V), Nandigama (M),</p>
-                <p class="mb-1">Rangareddy Dist, Hyderabad, Telangana, India</p>
-                <p class="mb-0">Pin Code: 509217</p>
+                <p class="mb-0">A Constituent of Symbiosis International University (Accredited by NAAC with 'A++' grade)</p>
             </div>
         </section>
     </main>
@@ -832,7 +829,7 @@
             // --- DATA ---
             const internalTeam = [
                 { name: "Dr. Rajanikanth Aluvalu", position: "Director & Chair Person", email: "director@sithyd.siu.edu.in", linkedin: "https://www.linkedin.com/in/prof-rajanikanth-aluvalu-26928014/", photo: "images/rajinikanth.jpeg" },
-                { name: "Mr. Sai Prashanth Mallellu", position: "Head, Entrepreneurship and Start-up Cell (E-Cell)", email: "placements@sithyd.siu.edu.in", linkedin: "https://www.linkedin.com/in/sai-prashanth-mallellu-bab491196/", photo: "images/prashanth.jpeg" },
+                { name: "Mr. Sai Prashanth Mallellu", position: "Head, Entrepreneurship and Start-up Cell (E-Cell)", email: "ecell@sithyd.siu.edu.in", linkedin: "https://www.linkedin.com/in/sai-prashanth-mallellu-bab491196/", photo: "images/prashanth.jpeg" },
                 { name: "Dr. Amulya Prasad Panda", position: "Head, IIC & Co-Convenor", email: "amulya.panda@sithyd.siu.edu.in", linkedin: "https://www.linkedin.com/in/dr-amulya-prasad-panda-350292aa/", photo: "images/amulya.jpeg" },
                 { name: "Dr. Dhruba Jyothi Bora", position: "Faculty Coordinator", email: "dhruba.bora@sithyd.siu.edu.in", linkedin: "https://www.linkedin.com/in/dr-dhruba-bora-79bb9144/", photo: "images/bora.jpg" },
                 { name: "Mr. D. Anand Kumar", position: "Coordinator", email: "anand.kumar@sithyd.siu.edu.in", linkedin: "https://www.linkedin.com/in/d-anand-kumar-474b3434a/", photo: "images/ananad1.jpg" },
@@ -840,7 +837,7 @@
                 { name: "Mr. Sujay Indupuru", position: "Vice President, E-Cell", email: "24070721040@sithyd.siu.edu.in", linkedin: "https://www.linkedin.com/in/sujay-indupuru-756654312/", photo: "images/sujay.jpg" },
                 { name: "Mr. P Karthik", position: "Logistics & Partnership Head, E-Cell", email: "24070721030@sithyd.siu.edu.in", linkedin: "https://www.linkedin.com/in/karthik-p-7507752bb/", photo: "images/karthik.jpg" },
                 { name: "Mr. Gunda Ravi Partha Sarathi", position: "Student Engagement & Outreach Coordinator, E-Cell", email: "24070724005@sithyd.siu.edu.in", linkedin: "http://linkedin.com/in/ravi-partha-sarathi-gunda/", photo: "images/ravi.jpg" },
-                { name: "Ms. Pendlimadugu Nikitha", position: "Student Engagement & Outreach Coordinator, E-Cell", email: "nikithagoud1720@gmail.com", linkedin: "https://www.linkedin.com/in/nikitha-pendlimadugu-75584a328/", photo: "images/nikitha.jpg" }
+                { name: "Ms. Pendlimadugu Nikitha", position: "Student Engagement & Outreach Coordinator, E-Cell", email: "nikithagoud1720@gmail.com", linkedin: "https://www.linkedin.com/in/pendlimadugu-nikitha-75584a328/", photo: "images/nikitha.jpg" }
             ];
 
             const externalTeam = [
@@ -857,14 +854,18 @@
                 const borderColorClass = isInternal ? 'border-brand-cyan' : 'border-secondary';
                 const positionTextColorClass = isInternal ? 'text-brand-cyan' : 'text-secondary';
                 
+                // MODIFIED: Use Gmail compose link for email
+                const emailLink = member.email ? `<a href="https://mail.google.com/mail/?view=cm&fs=1&to=${member.email}" target="_blank" class="text-secondary social-icon mx-1" title="Email ${member.name}"><i class="fas fa-envelope"></i></a>` : '';
+                const linkedinLink = member.linkedin ? `<a href="${member.linkedin}" target="_blank" class="text-secondary social-icon mx-1" title="LinkedIn Profile"><i class="fab fa-linkedin"></i></a>` : '';
+
                 return `
                     <div class="col-6 col-md-4 col-lg-2 text-center animate-on-scroll" style="transition-delay: ${index * 50}ms">
                         <img src="${member.photo}" alt="${member.name}" class="team-img rounded-circle mx-auto mb-3 ${borderColorClass}">
                         <h3 class="fs-6 fw-bold text-white">${member.name}</h3>
                         <p class="${positionTextColorClass} small">${member.position}</p>
                         <div class="d-flex justify-content-center mt-2">
-                            ${member.email ? `<a href="mailto:${member.email}" class="text-secondary social-icon mx-1" title="Email ${member.name}"><i class="fas fa-envelope"></i></a>` : ''}
-                            ${member.linkedin ? `<a href="${member.linkedin}" target="_blank" class="text-secondary social-icon mx-1" title="LinkedIn Profile"><i class="fab fa-linkedin"></i></a>` : ''}
+                            ${emailLink}
+                            ${linkedinLink}
                         </div>
                     </div>`;
             };
@@ -880,14 +881,19 @@
                 if (externalContainer) {
                     externalTeam.forEach((member, index) => {
                         const colClass = "col-6 col-md-4 col-lg-3";
+                        
+                        // MODIFIED: Use Gmail compose link for email
+                        const emailLink = member.email ? `<a href="https://mail.google.com/mail/?view=cm&fs=1&to=${member.email}" target="_blank" class="text-secondary social-icon mx-1" title="Email ${member.name}"><i class="fas fa-envelope"></i></a>` : '';
+                        const linkedinLink = member.linkedin ? `<a href="${member.linkedin}" target="_blank" class="text-secondary social-icon mx-1" title="LinkedIn Profile"><i class="fab fa-linkedin"></i></a>` : '';
+
                         const memberHtml = `
                             <div class="${colClass} text-center animate-on-scroll" style="transition-delay: ${index * 50}ms">
                                 <img src="${member.photo}" alt="${member.name}" class="team-img rounded-circle mx-auto mb-3 border-secondary">
                                 <h3 class="fs-6 fw-bold text-white">${member.name}</h3>
                                 <p class="text-secondary small">${member.position}</p>
                                 <div class="d-flex justify-content-center mt-2">
-                                    ${member.email ? `<a href="mailto:${member.email}" class="text-secondary social-icon mx-1" title="Email ${member.name}"><i class="fas fa-envelope"></i></a>` : ''}
-                                    ${member.linkedin ? `<a href="${member.linkedin}" target="_blank" class="text-secondary social-icon mx-1" title="LinkedIn Profile"><i class="fab fa-linkedin"></i></a>` : ''}
+                                    ${emailLink}
+                                    ${linkedinLink}
                                 </div>
                             </div>`;
                         externalContainer.innerHTML += memberHtml;
@@ -1020,5 +1026,3 @@
     </script>
 </body>
 </html>
-
-
