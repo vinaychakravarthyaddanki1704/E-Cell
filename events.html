@@ -221,8 +221,8 @@
         .modal-main-image {
             width: 100%;
             height: 250px;
-            object-fit: contain; /* Changed from cover */
-            background-color: #000; /* Added background for letterboxing */
+            object-fit: contain;
+            background-color: #000;
         }
 
         .modal-close-btn {
@@ -312,10 +312,10 @@
         /* Responsive adjustments for smaller screens */
         @media (max-width: 767.98px) {
             .display-4 {
-                font-size: 2.5rem; /* Smaller heading on mobile */
+                font-size: 2.5rem;
             }
             .lead {
-                font-size: 1rem; /* Smaller lead text on mobile */
+                font-size: 1rem;
             }
             #goToTopBtn {
                 width: 40px;
@@ -332,7 +332,6 @@
         <div class="container">
             <!-- Brand Logo/Name -->
             <a class="navbar-brand fs-4 fw-bold" href="index.html#home">
-                <!-- Logo SVG -->
                 <span class="logo-icon">
                     <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path d="M12 2L6 8h3v4h6V8h3l-6-6zM4 14v2h16v-2H4zM4 18v2h16v-2H4z"/>
@@ -340,11 +339,9 @@
                 </span>
                 E-Cell <span class="text-brand-cyan">SIT-H</span>
             </a>
-            <!-- Toggler button for mobile navigation -->
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main-nav" aria-controls="main-nav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <!-- Navbar links -->
             <div class="collapse navbar-collapse" id="main-nav">
                 <ul class="navbar-nav ms-auto align-items-center">
                     <li class="nav-item"><a class="nav-link" href="index.html#home">Home</a></li>
@@ -359,7 +356,6 @@
         </div>
     </nav>
 
-    <!-- This canvas element is dedicated to the Three.js 3D background -->
     <canvas id="bg-canvas"></canvas>
 
     <main>
@@ -371,15 +367,14 @@
                     <p class="lead text-secondary mt-3">A showcase of our activities that fuel the entrepreneurial spirit.</p>
                 </div>
                 
-                <!-- Events will be dynamically generated here -->
+                <!-- Events container -->
                 <div id="events-container" class="row g-4">
-                    <!-- Event cards will be injected by JavaScript -->
+                    <!-- Event cards injected by JavaScript -->
                 </div>
             </div>
         </section>
     </main>
 
-    <!-- Go To Top Button -->
     <button id="goToTopBtn" class="d-none d-md-flex"><i class="fas fa-arrow-up"></i></button>
 
     <!-- Footer Section -->
@@ -392,11 +387,8 @@
                     <p class="mt-3 text-secondary small">&copy; 2025 E-Cell, SIT Hyderabad. All Rights Reserved.</p>
                 </div>
                 <div class="col-md-4 text-center text-md-end">
-                    <!-- Social Media Icons -->
                     <div class="d-flex justify-content-center justify-content-md-end mt-3">
-                        <!-- LinkedIn Icon -->
                         <a href="https://www.linkedin.com/in/symbiosis-institute-of-technology-hyderabad/" target="_blank" class="text-secondary social-icon mx-1" title="LinkedIn Profile"><i class="fab fa-linkedin"></i></a>
-                        <!-- Instagram Icon -->
                         <a href="https://www.instagram.com/symbiosis_sit_hyderabad/" target="_blank" class="text-secondary social-icon mx-1" title="Instagram Profile"><i class="fab fa-instagram"></i></a>
                     </div>
                 </div>
@@ -404,7 +396,6 @@
         </div>
     </footer>
 
-    <!-- Bootstrap JavaScript Bundle (includes Popper.js) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     
     <script>
@@ -564,6 +555,40 @@
                         learnings: ['Navigating different tech roles (e.g., developer, researcher, product manager).', 'The importance of continuous learning.', 'Building a global career in technology.'],
                         testimonials: [{ quote: '"The session provided a clear and structured way to think about my future in the tech industry. Incredibly helpful!"', studentName: 'Ghana Sai Reddy, 2nd Year AIML ' }]
                     }
+                },
+                {
+                    id: 'under25-summit',
+                    title: 'Under 25 Summit at Campus',
+                    description: 'A collaborative, energetic half-day edutainment festival bringing cross-industry leaders, content creators, and musicians straight to the student community.',
+                    image: 'images/under 25.jpeg',
+                    speaker: 'Anam Mirza, Jaiyetri Makana, Haneef Shaikh, Smera Shetty',
+                    details: {
+                        fullDescription: 'Organized jointly by the E-Cell SIT Hyderabad alongside partner councils from SCMS, SIBM, and SLS, this summit welcomed over 1,000 attendees. Keynotes covered creative career paths and personal growth, flanked by engaging interactive pre-events including a Pet Feeding Drive, student Talent Hunt, and an enthusiastic Flashmob banner launch.',
+                        gallery: ['images/petfeeding.jpg', 'images/talenthunt.jpg', 'images/banner launch poster.jpg'],
+                        learnings: [
+                            'Strengthened cross-campus community leadership and coordination mechanisms.',
+                            'Explored real-world pathways within modern entrepreneurship, indie music development, and digital media production.',
+                            'Demonstrated successful practical implementations pairing education directly with dynamic cultural entertainment environments.'
+                        ],
+                        testimonials: [{ quote: '"An incredible space that bridged industrial expertise with genuine entertainment. The networking space alone was highly motivating!"', studentName: 'Summit Attendee, Symbiosis Hyderabad' }]
+                    }
+                },
+                {
+                    id: 'le-startups-confluence',
+                    title: 'Le Startups Confluence',
+                    description: 'An interactive legal and strategic summit addressing intellectual property foundations and product roadmap strategies essential for new ventures.',
+                    image: 'images/le startup confluence.jpeg',
+                    speaker: 'Dr. Moksha Kalyanram Abhiramula & Ms. Manushi K Shah',
+                    details: {
+                        fullDescription: 'Led by partner experts from La Mintage Legal, this joint initiative illuminated structural pillars for over 150 students. Key masterclass modules walked through standard IP ownership mechanisms, risk protection frameworks, and engineering resilient solutions engineered to scale systematically past the initial Minimum Viable Product stage.',
+                        gallery: [],
+                        learnings: [
+                            'Acquired deep knowledge regarding Intellectual Property Rights for protecting core business logic.',
+                            'Generatively learned methods for minimizing structural vulnerabilities and legal friction points encountered inside early-stage ecosystems.',
+                            'Mastered foundational concepts that safely anchor standard technological growth to long-term compliance planning structures.'
+                        ],
+                        testimonials: [{ quote: '"The sessions demystified early legal bottlenecks perfectly. I now view code architectures as highly valuable business assets that require early protective scaffolding."', studentName: 'Engineering Student, SIT Hyderabad' }]
+                    }
                 }
             ];
 
@@ -579,7 +604,7 @@
                                 </div>
                                 <div class="event-card-content">
                                     <h3 class="event-title">${event.title}</h3>
-                                    ${event.speaker ? `<p class="speaker-name">Speaker: ${event.speaker}</p>` : ''}
+                                    ${event.speaker ? `<p class="speaker-name">Speakers: ${event.speaker}</p>` : ''}
                                     <p class="event-description">${event.description}</p>
                                 </div>
                                 <div class="event-details-modal">
@@ -587,7 +612,7 @@
                                     <img src="${event.image}" alt="${event.title}" class="modal-main-image">
                                     <div class="modal-content-wrapper">
                                         <h3 class="event-title">${event.title}</h3>
-                                        ${event.speaker ? `<p class="speaker-name">Speaker: ${event.speaker}</p>` : ''}
+                                        ${event.speaker ? `<p class="speaker-name">Speakers: ${event.speaker}</p>` : ''}
                                         <h4>About the Event</h4>
                                         <p>${event.details.fullDescription}</p>
                                         
@@ -640,21 +665,17 @@
                 const card = e.target.closest('.event-card');
                 if (!card) return;
 
-                // Logic for close button
                 if (e.target.classList.contains('modal-close-btn')) {
                     card.classList.remove('active');
                     return;
                 }
 
-                // Logic for mobile tap
                 if (window.innerWidth < 992) {
-                    // Remove 'active' from all other cards
                     document.querySelectorAll('.event-card.active').forEach(activeCard => {
                         if (activeCard !== card) {
                             activeCard.classList.remove('active');
                         }
                     });
-                    // Toggle current card
                     card.classList.toggle('active');
                 }
             });
